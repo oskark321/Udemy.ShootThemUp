@@ -2,10 +2,9 @@
 
 
 #include "Player/STUBaseCharacter.h"
+
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
-
-//#include "GameFramework/CharacterMovementComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
@@ -21,10 +20,14 @@ ASTUBaseCharacter::ASTUBaseCharacter()
 	//tworzenie komponentu ramienia sprężynującego
 	SpringArmComp->SetupAttachment(RootComponent);
 	//przypinamy komponent SpringArm do głównego konponentu
+	//S3 L26
+	SpringArmComp->bUsePawnControlRotation = true;
+	//ustawiamy aby SpringArm używał rotacji kontrolera gracza czyli aby kamera obracała się wraz z graczem czyli w obu osiach. Można to ustawić równiż w BP w edytorze
 
+	//S3 L24
 	CameraComp = CreateDefaultSubobject<UCameraComponent>("Camera Component");
 	//tworzymy komponent kamery
-	CameraComp->SetupAttachment(SpringArmComp);
+	CameraComp->SetupAttachment(SpringArmComp); 
 	//przypinamy komponent kamery do komponentu ramienia sprężystego
 
 }

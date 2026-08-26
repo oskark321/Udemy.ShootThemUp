@@ -20,7 +20,7 @@ ASTUBaseCharacter::ASTUBaseCharacter()
 	//tworzenie komponentu ramienia sprężynującego
 	SpringArmComp->SetupAttachment(RootComponent);
 	//przypinamy komponent SpringArm do głównego konponentu
-	//S3 L26
+	//S3 L25 L26
 	SpringArmComp->bUsePawnControlRotation = true;
 	//ustawiamy aby SpringArm używał rotacji kontrolera gracza czyli aby kamera obracała się wraz z graczem czyli w obu osiach. Można to ustawić równiż w BP w edytorze
 
@@ -46,12 +46,13 @@ void ASTUBaseCharacter::Tick(float DeltaTime)
 
 }
 
+//S3 L25 L26 a raczej z połączeniem z poprzednim kursem
 //funkcja inicjująca powiązania akcji wyjściowych
 void ASTUBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	//S3 L25 a raczej z połączeniem z poprzednim kursem
+	//S3 L25 L26 a raczej z połączeniem z poprzednim kursem
 	//konfiguracja powiązań akcji wyjściowych, czyli powiązanie akcji z funkcjami, które mają być wywołane przy danej akcji
 	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent))
 	{
@@ -75,7 +76,7 @@ void ASTUBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 void ASTUBaseCharacter::Move(const FInputActionValue& Value)
 {
-	//S3 L25 a raczej z połączeniem z poprzednim kursem
+	//S3 L25 L26 a raczej z połączeniem z poprzednim kursem
 	// input is a Vector2D
 	FVector2D MovementVector = Value.Get<FVector2D>();
 
@@ -85,7 +86,7 @@ void ASTUBaseCharacter::Move(const FInputActionValue& Value)
 
 void ASTUBaseCharacter::Look(const FInputActionValue& Value)
 {
-	//S3 L25 a raczej z połączeniem z poprzednim kursem
+	//S3 L25 L26 a raczej z połączeniem z poprzednim kursem
 	// input is a Vector2D
 	FVector2D LookAxisVector = Value.Get<FVector2D>();
 
@@ -95,7 +96,7 @@ void ASTUBaseCharacter::Look(const FInputActionValue& Value)
 
 void ASTUBaseCharacter::DoMove(float Right, float Forward)
 {
-	//S3 L25 a raczej z połączeniem z poprzednim kursem
+	//S3 L25 L26 a raczej z połączeniem z poprzednim kursem
 	if (GetController() != nullptr)
 	{
 		// find out which way is forward
@@ -116,7 +117,7 @@ void ASTUBaseCharacter::DoMove(float Right, float Forward)
 
 void ASTUBaseCharacter::DoLook(float Yaw, float Pitch)
 {
-	//S3 L25 a raczej z połączeniem z poprzednim kursem
+	//S3 L25 L26 a raczej z połączeniem z poprzednim kursem
 	if (GetController() != nullptr)
 	{
 		// add yaw and pitch input to controller
@@ -127,14 +128,14 @@ void ASTUBaseCharacter::DoLook(float Yaw, float Pitch)
 
 void ASTUBaseCharacter::DoJumpStart()
 {
-	//S3 L25 a raczej z połączeniem z poprzednim kursem
+	//S3 L25 L26 a raczej z połączeniem z poprzednim kursem
 	// signal the character to jump
 	Jump();
 }
 
 void ASTUBaseCharacter::DoJumpEnd()
 {
-	//S3 L25 a raczej z połączeniem z poprzednim kursem
+	//S3 L25 L26 a raczej z połączeniem z poprzednim kursem
 	// signal the character to stop jumping
 	StopJumping();
 }

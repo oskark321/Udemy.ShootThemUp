@@ -26,7 +26,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	//S3 L25 a raczej z połączeniem z poprzednim kursem
+	//S3 L25 L26 a raczej z połączeniem z poprzednim kursem
 	//funkcja inicjująca powiązania akcji wyjściowych
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
@@ -56,7 +56,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	//S3 L25 a raczej z połączeniem z poprzednim kursem
+	//S3 L25 L26 a raczej z połączeniem z poprzednim kursem
 	//funkcja obsługująca ruch z dowolnego źródła wejściowego
 	UFUNCTION(BlueprintCallable, Category = "Input")
 	virtual void DoMove(float Right, float Forward);

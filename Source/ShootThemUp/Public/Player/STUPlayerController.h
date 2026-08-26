@@ -20,12 +20,13 @@ class SHOOTTHEMUP_API ASTUPlayerController : public APlayerController
 
 protected:
 
-	//S3 L25 a raczej z połączeniem z poprzednim kursem
+	//S3 L25 L26 a raczej z połączeniem z poprzednim kursem
 	//ta tablica do IMC_Default, czyli kontekstu mapowania wejściowego dla lokalnych kontrolerów odtwarzacza
 	UPROPERTY(EditAnywhere, Category = "Input|Input Mappings")
 	TArray<UInputMappingContext*> DefaultMappingContexts;
 
-	//ta tablica do IMC_MouseLook, czyli kontekstu mapowania wejściowego dla lokalnych kontrolerów odtwarzacza, ale tylko gdy nie mamy włączonego sterowania dotykowego, bo wtedy mamy osobne IMC_TouchLook do rozglądania się przy pomocy dotyku
+	//ta tablica do IMC_MouseLook, czyli kontekstu mapowania wejściowego dla lokalnych kontrolerów odtwarzacza, ale tylko gdy nie mamy włączonego sterowania dotykowego, bo wtedy mamy osobne
+	//IMC_TouchLook do rozglądania się przy pomocy dotyku
 	UPROPERTY(EditAnywhere, Category = "Input|Input Mappings")
 	TArray<UInputMappingContext*> MobileExcludedMappingContexts;
 

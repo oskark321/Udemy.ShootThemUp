@@ -14,7 +14,7 @@ void ASTUPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
 
-	//S3 L25 a raczej z połączeniem z poprzednim kursem
+	//S3 L25 L26 a raczej z połączeniem z poprzednim kursem
 	//to IMC dla lokalnych kontrolerów odtwarzacza, więc sprawdzamy czy kontroler jest lokalny
 	if (IsLocalPlayerController())
 	{
@@ -26,8 +26,8 @@ void ASTUPlayerController::SetupInputComponent()
 				Subsystem->AddMappingContext(CurrentContext, 0);
 			}
 
-			//to IMC dodajemy do korzystania rozglądania się myszką bo mamy osobne IMC_MouseLook do rozglądania się przy pomocy myszki, tylko gdy nie mamy włączonego sterowania dotykowego, bo wtedy mamy osobne IMC_TouchLook do rozglądania
-			//się przy pomocy dotyku
+			//to IMC dodajemy do korzystania rozglądania się myszką bo mamy osobne IMC_MouseLook do rozglądania się przy pomocy myszki, tylko gdy nie mamy włączonego sterowania dotykowego
+			//bo wtedy mamy osobne IMC_TouchLook do rozglądania się przy pomocy dotyku
 			if (!ShouldUseTouchControls())
 			{
 				for (UInputMappingContext* CurrentContext : MobileExcludedMappingContexts)
@@ -39,7 +39,7 @@ void ASTUPlayerController::SetupInputComponent()
 	}
 }
 
-//S3 L25 a raczej z połączeniem z poprzednim kursem
+//S3 L25 L26 a raczej z połączeniem z poprzednim kursem
 bool ASTUPlayerController::ShouldUseTouchControls() const
 //funkcja zwraca true jeżeli powinniśmy używać sterowania dotykowego, czyli jeżeli jesteśmy na platformie mobilnej lub jeżeli wymusiliśmy sterowanie dotykowe
 {

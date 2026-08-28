@@ -45,14 +45,11 @@ void ASTUBaseCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
-
 //S3 L25 L26 a raczej z połączeniem z poprzednim kursem
 //funkcja inicjująca powiązania akcji wyjściowych
 void ASTUBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-	//S3 L25 L26 a raczej z połączeniem z poprzednim kursem
 	//konfiguracja powiązań akcji wyjściowych, czyli powiązanie akcji z funkcjami, które mają być wywołane przy danej akcji
 	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent))
 	{
@@ -60,12 +57,10 @@ void ASTUBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 		// Jumping
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ACharacter::Jump);
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
-
 		// Moving
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ASTUBaseCharacter::Move);
-		EnhancedInputComponent->BindAction(MouseLookAction, ETriggerEvent::Triggered, this, &ASTUBaseCharacter::Look);
-
 		// Looking
+		EnhancedInputComponent->BindAction(MouseLookAction, ETriggerEvent::Triggered, this, &ASTUBaseCharacter::Look);
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ASTUBaseCharacter::Look);
 	}
 	else
@@ -73,40 +68,37 @@ void ASTUBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 		UE_LOG(LogSTUBaseCharacter, Error, TEXT("'%s' Failed to find an Enhanced Input component! This template is built to use the Enhanced Input system. If you intend to use the legacy system, then you will need to update this C++ file."), *GetNameSafe(this));
 	}
 }
-
+//S3 L25 L26 a raczej z połączeniem z poprzednim kursem
 void ASTUBaseCharacter::Move(const FInputActionValue& Value)
 {
-	//S3 L25 L26 a raczej z połączeniem z poprzednim kursem
 	// input is a Vector2D
 	FVector2D MovementVector = Value.Get<FVector2D>();
 
 	// route the input
 	DoMove(MovementVector.X, MovementVector.Y);
 }
-
+//S3 L25 L26 a raczej z połączeniem z poprzednim kursem
 void ASTUBaseCharacter::Look(const FInputActionValue& Value)
 {
-	//S3 L25 L26 a raczej z połączeniem z poprzednim kursem
 	// input is a Vector2D
 	FVector2D LookAxisVector = Value.Get<FVector2D>();
 
 	// route the input
 	DoLook(LookAxisVector.X, LookAxisVector.Y);
 }
-
+//S3 L25 L26 a raczej z połączeniem z poprzednim kursem
 void ASTUBaseCharacter::DoMove(float Right, float Forward)
 {
-	//S3 L25 L26 a raczej z połączeniem z poprzednim kursem
 	if (GetController() != nullptr)
 	{
-		// find out which way is forward
+		//szukamy w którą strone idziemy
 		const FRotator Rotation = GetController()->GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
 
-		// get forward vector
+		//dostajemy wektor do przodu
 		const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 
-		// get right vector 
+		//dostajemy wektr w prawo 
 		const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 
 		// add movement 
@@ -114,28 +106,25 @@ void ASTUBaseCharacter::DoMove(float Right, float Forward)
 		AddMovementInput(RightDirection, Right);
 	}
 }
-
+//S3 L25 L26 a raczej z połączeniem z poprzednim kursem
 void ASTUBaseCharacter::DoLook(float Yaw, float Pitch)
 {
-	//S3 L25 L26 a raczej z połączeniem z poprzednim kursem
 	if (GetController() != nullptr)
 	{
-		// add yaw and pitch input to controller
+		//dodajemy yaw and pitch wejsciowe do kontrolera
 		AddControllerYawInput(Yaw);
 		AddControllerPitchInput(Pitch);
 	}
 }
-
+//S3 L25 L26 a raczej z połączeniem z poprzednim kursem
 void ASTUBaseCharacter::DoJumpStart()
 {
-	//S3 L25 L26 a raczej z połączeniem z poprzednim kursem
 	// signal the character to jump
 	Jump();
 }
-
+//S3 L25 L26 a raczej z połączeniem z poprzednim kursem
 void ASTUBaseCharacter::DoJumpEnd()
 {
-	//S3 L25 L26 a raczej z połączeniem z poprzednim kursem
 	// signal the character to stop jumping
 	StopJumping();
 }

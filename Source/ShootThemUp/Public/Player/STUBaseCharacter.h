@@ -46,11 +46,19 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Input")
 	UInputAction* MouseLookAction;
 
+	//S3 L2929 akcja biegabia
+	UPROPERTY(EditAnywhere, Category = "Input")
+	UInputAction* RunAction;
+
 	//funkcja wywołana przy ruchu
 	void Move(const FInputActionValue& Value);
 
 	//funkcja wywolana przy rozglądaniu się
 	void Look(const FInputActionValue& Value);
+
+	//S3 L29 funkcja odpowiedzialna za bieganie postaci
+	void StartRunning();
+	void StopRunning();
 
 public:
 	// Called every frame
@@ -73,6 +81,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Input")
 	virtual void DoJumpEnd();
 
+	//S3 L29
+	//UFUNCTION(BlueprintCallable aby funkcja była widoczna w BP) const aby funkcja nie modyfikowała niczego w klasie
+	UFUNCTION(BlueprintCallable, Category = "Movement")
+	bool IsRunning() const;
+
+
 private:
 	//S3 L24
 	UPROPERTY(VisibleAnywhere)
@@ -80,4 +94,13 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* CameraComp;
+
+	//S3 L29
+	bool WantsToRun = false;
+	bool IsMovingForward = false;
+
+	UPROPERTY(EditAnywhere, Category = "Movement")
+	float WalkSpeed = 400.0f;
+	UPROPERTY(EditAnywhere, Category = "Movement")
+	float RunSpeed = 800.0f;
 };

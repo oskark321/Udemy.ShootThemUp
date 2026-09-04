@@ -36,6 +36,8 @@ ASTUBaseCharacter::ASTUBaseCharacter()
 void ASTUBaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	
 	
 }
 
@@ -62,6 +64,10 @@ void ASTUBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 		// Looking
 		EnhancedInputComponent->BindAction(MouseLookAction, ETriggerEvent::Triggered, this, &ASTUBaseCharacter::Look);
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ASTUBaseCharacter::Look);
+
+		//S3 L29 Run
+		EnhancedInputComponent->BindAction(RunAction, ETriggerEvent::Triggered, this, &ASTUBaseCharacter::StartRunning);
+		EnhancedInputComponent->BindAction(RunAction, ETriggerEvent::Completed, this, &ASTUBaseCharacter::StopRunning);
 	}
 	else
 	{
@@ -86,6 +92,20 @@ void ASTUBaseCharacter::Look(const FInputActionValue& Value)
 	// route the input
 	DoLook(LookAxisVector.X, LookAxisVector.Y);
 }
+//S3 L29 funkcja odpowiedzialna za bieganie postaci
+void ASTUBaseCharacter::StartRunning()
+{
+	WantsToRun = true;
+	UE_LOG(LogSTUBaseCharacter, Warning, TEXT("Running"));
+}
+//S3 L29 funkcja odpowiedzialna za bieganie postaci
+void ASTUBaseCharacter::StopRunning()
+{
+	
+	WantsToRun = false;
+	UE_LOG(LogSTUBaseCharacter, Warning, TEXT("Not Running"));
+}
+
 //S3 L25 L26 a raczej z połączeniem z poprzednim kursem
 void ASTUBaseCharacter::DoMove(float Right, float Forward)
 {
@@ -104,6 +124,18 @@ void ASTUBaseCharacter::DoMove(float Right, float Forward)
 		// add movement 
 		AddMovementInput(ForwardDirection, Forward);
 		AddMovementInput(RightDirection, Right);
+
+		//S3 L29 sprawdzamy czy poruszamy się do przodu czy nie po przez zmienną Forward, która jest dodatnia gdy poruszamy się do przodu i ujemna gdy poruszamy się do tyłu
+		if (Forward > 0)
+		{
+			IsMovingForward = true;
+			//UE_LOG(LogSTUBaseCharacter, Warning, TEXT("Moving Forward"));
+		}
+		else
+		{
+			IsMovingForward = false;
+			//UE_LOG(LogSTUBaseCharacter, Warning, TEXT("Not Moving Forward"));
+		}
 	}
 }
 //S3 L25 L26 a raczej z połączeniem z poprzednim kursem
@@ -121,10 +153,18 @@ void ASTUBaseCharacter::DoJumpStart()
 {
 	// signal the character to jump
 	Jump();
+
 }
 //S3 L25 L26 a raczej z połączeniem z poprzednim kursem
 void ASTUBaseCharacter::DoJumpEnd()
 {
 	// signal the character to stop jumping
 	StopJumping();
+}
+
+bool ASTUBaseCharacter::IsRunning() const
+{
+	return WantsToRun && IsMovingForward && !GetVelocity().IsZero();
+	//funcka zwraca prawde jeśli WantsToRun jest prawdą czyli jeśli mamy wciśnięty shift i IsMovingForward jest prawdą czyli jeśli postać porusza się do przodu oraz
+	//!GetVelocity().IsZero() czyli jeśli postać się porusza jej prędkość nie jest zerowa np. gdy utknie na przeszkodze
 }

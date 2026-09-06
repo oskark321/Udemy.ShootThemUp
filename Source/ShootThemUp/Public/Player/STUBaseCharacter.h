@@ -100,7 +100,7 @@ private:
 	bool IsMovingForward = false;
 
 	UPROPERTY(EditAnywhere, Category = "Movement")
-	float WalkSpeed = 400.0f;
+	float WalkSpeed = 600.0f;
 	UPROPERTY(EditAnywhere, Category = "Movement")
-	float RunSpeed = 800.0f;
+	float RunSpeed = 900.0f;
 };

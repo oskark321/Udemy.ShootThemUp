@@ -96,14 +96,14 @@ void ASTUBaseCharacter::Look(const FInputActionValue& Value)
 void ASTUBaseCharacter::StartRunning()
 {
 	WantsToRun = true;
-	UE_LOG(LogSTUBaseCharacter, Warning, TEXT("Running"));
+	//UE_LOG(LogSTUBaseCharacter, Warning, TEXT("Running"));
 }
 //S3 L29 funkcja odpowiedzialna za bieganie postaci
 void ASTUBaseCharacter::StopRunning()
 {
 	
 	WantsToRun = false;
-	UE_LOG(LogSTUBaseCharacter, Warning, TEXT("Not Running"));
+	//UE_LOG(LogSTUBaseCharacter, Warning, TEXT("Not Running"));
 }
 
 //S3 L25 L26 a raczej z połączeniem z poprzednim kursem

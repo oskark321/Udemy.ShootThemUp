@@ -125,7 +125,7 @@ void ASTUBaseCharacter::DoMove(float Right, float Forward)
 		AddMovementInput(ForwardDirection, Forward);
 		AddMovementInput(RightDirection, Right);
 
-		//S3 L29 sprawdzamy czy poruszamy się do przodu czy nie po przez zmienną Forward, która jest dodatnia gdy poruszamy się do przodu i ujemna gdy poruszamy się do tyłu
+		//S3 L29 sprawdzamy czy poruszamy się do przodu czy nie po przez zmienną Forward, która jest dodatnia gdy poruszamy się do przodu i ujemna gdy poruszamy się do tyłu i 0 gdy stoimi
 		if (Forward > 0)
 		{
 			IsMovingForward = true;
@@ -162,6 +162,7 @@ void ASTUBaseCharacter::DoJumpEnd()
 	StopJumping();
 }
 
+//S3 L29
 bool ASTUBaseCharacter::IsRunning() const
 {
 	return WantsToRun && IsMovingForward && !GetVelocity().IsZero();

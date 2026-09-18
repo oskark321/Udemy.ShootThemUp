@@ -46,17 +46,18 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Input")
 	UInputAction* MouseLookAction;
 
-	//S3 L2929 akcja biegabia
+	//S3 L29 akcja biegabia
 	UPROPERTY(EditAnywhere, Category = "Input")
 	UInputAction* RunAction;
 
+	//S3 L25 L26 a raczej z połączeniem z poprzednim kursem
 	//funkcja wywołana przy ruchu
 	void Move(const FInputActionValue& Value);
 
 	//funkcja wywolana przy rozglądaniu się
 	void Look(const FInputActionValue& Value);
 
-	//S3 L29 funkcja odpowiedzialna za bieganie postaci
+	//S3 L29 funkcje odpowiedzialne za bieganie postaci
 	void StartRunning();
 	void StopRunning();
 
@@ -98,9 +99,4 @@ private:
 	//S3 L29
 	bool WantsToRun = false;
 	bool IsMovingForward = false;
-
-	UPROPERTY(EditAnywhere, Category = "Movement")
-	float WalkSpeed = 600.0f;
-	UPROPERTY(EditAnywhere, Category = "Movement")
-	float RunSpeed = 900.0f;
 };

@@ -169,3 +169,15 @@ bool ASTUBaseCharacter::IsRunning() const
 	//funcka zwraca prawde jeśli WantsToRun jest prawdą czyli jeśli mamy wciśnięty shift i IsMovingForward jest prawdą czyli jeśli postać porusza się do przodu oraz
 	//!GetVelocity().IsZero() czyli jeśli postać się porusza jej prędkość nie jest zerowa np. gdy utknie na przeszkodze
 }
+
+float ASTUBaseCharacter::GetMovementDirection() const
+{
+	//S3 L30
+	if (GetVelocity().IsZero()) return 0.0; //jesli prędkość postaci jest zerowa to zwracamy 0.0 bo nie ma kierunku ruchu
+	const FVector VelocityNormal = GetVelocity().GetSafeNormal(); //pobieramy wektor prędkości postaci i normalizujemy go
+	const float AngleBetween = FMath::Acos(FVector::DotProduct(GetActorForwardVector(), VelocityNormal)); //obliczamy kąt między wektorem kierunku postaci a wektorem prędkości
+	const FVector CrossProduct = FVector::CrossProduct(GetActorForwardVector(), VelocityNormal); //obliczamy iloczyn wektorowy między wektorem kierunku postaci a wektorem prędkości
+	const float Degrees = FMath::RadiansToDegrees(AngleBetween); //konwertujemy kąt z radianów na stopnie
+	return CrossProduct.IsZero() ? Degrees : Degrees * FMath::Sign(CrossProduct.Z);
+	//zwracamy kąt w stopniach między wektorem kierunku postaci a wektorem prędkości mnożymy przez znak z iloczynu wektora z osi Z
+}

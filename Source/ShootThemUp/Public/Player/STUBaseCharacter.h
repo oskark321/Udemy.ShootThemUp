@@ -83,10 +83,14 @@ public:
 	virtual void DoJumpEnd();
 
 	//S3 L29
-	//UFUNCTION(BlueprintCallable aby funkcja była widoczna w BP) const aby funkcja nie modyfikowała niczego w klasie
+	//UFUNCTION(BlueprintCallable aby funkcja była widoczna w BP) const aby funkcja nie modyfikowała żadnych danych wewnętrznych klasy
 	UFUNCTION(BlueprintCallable, Category = "Movement")
 	bool IsRunning() const;
 
+	//S3 L30
+	//UFUNCTION(BlueprintCallable aby funkcja była widoczna w BP) const aby funkcja nie modyfikowała żadnych danych wewnętrznych klasys
+	UFUNCTION(BlueprintCallable, Category = "Movement")
+	float GetMovementDirection() const; //zwraca kierunek ruchu postaci
 
 private:
 	//S3 L24

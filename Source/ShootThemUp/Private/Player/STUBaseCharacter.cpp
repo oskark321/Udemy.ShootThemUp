@@ -179,5 +179,5 @@ float ASTUBaseCharacter::GetMovementDirection() const
 	const FVector CrossProduct = FVector::CrossProduct(GetActorForwardVector(), VelocityNormal); //obliczamy iloczyn wektorowy między wektorem kierunku postaci a wektorem prędkości
 	const float Degrees = FMath::RadiansToDegrees(AngleBetween); //konwertujemy kąt z radianów na stopnie
 	return CrossProduct.IsZero() ? Degrees : Degrees * FMath::Sign(CrossProduct.Z);
-	//zwracamy kąt w stopniach między wektorem kierunku postaci a wektorem prędkości mnożymy przez znak z iloczynu wektora z osi Z
+	//sprawdzamy czy iloczyn wektorowy jest zerowy jeśli tak to zwracamy kąt w stopniach jeśli nie to zwracamy kąt w stopniach mnożony przez znak z iloczynu wektorowego z osi Z
 }

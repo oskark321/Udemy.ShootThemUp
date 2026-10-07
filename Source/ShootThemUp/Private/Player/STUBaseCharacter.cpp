@@ -8,6 +8,8 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+#include "Components/STUHealthComponent.h"
+#include "Components/TextRenderComponent.h"
 
 // Sets default values
 ASTUBaseCharacter::ASTUBaseCharacter()
@@ -30,21 +32,37 @@ ASTUBaseCharacter::ASTUBaseCharacter()
 	CameraComp->SetupAttachment(SpringArmComp); 
 	//przypinamy komponent kamery do komponentu ramienia sprężystego
 
+	//S4 L33
+	HealthComp = CreateDefaultSubobject<USTUHealthComponent>("Health Component");
+	//tworzymy komponent który odpowiada ze zdrowie postaci, bez SetupAttachment ponieważ komponent nie ma wizualizacji w świecie gry
+	HealthTextComp = CreateDefaultSubobject<UTextRenderComponent>("Health Text Component");
+	//tworzymy komponent który odpowiada za wyświetlanie tekstu w świecie gry
+	HealthTextComp->SetupAttachment(RootComponent);
+	//przypinamy komponent wyświetlający tekst do głównego komponentu
 }
 
 // Called when the game starts or when spawned
 void ASTUBaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-
 	
-	
+	//S4 L33
+	check(HealthComp);
+	check(HealthTextComp);
+	//sprawdzamhy czy komponenty zostału utworzone, jeśli nie to wyświetli błąd w logach w edytorze a na samą zbudowana gre nie ma wpływu
 }
 
 // Called every frame
 void ASTUBaseCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	//S4 L33
+	const float Health = HealthComp->GetHealth();
+	//pobieramy zdrowie postaci po przez funkcje GetHealth() z komponentu zdrowia
+	HealthTextComp->SetText(FText::FromString(FString::Printf(TEXT("%.0f"), Health)));
+	//ustawiamy tekst w komponencie wyświetlającym tekst na wartość zdrowia postaci po przez funkcje SetText() z komponentu wyświetlającego tekst
+
 
 }
 //S3 L25 L26 a raczej z połączeniem z poprzednim kursem

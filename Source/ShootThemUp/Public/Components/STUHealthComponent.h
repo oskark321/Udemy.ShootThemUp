@@ -25,7 +25,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	//S4 L33
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Health", meta = (ClampMin = 0.0, ClampMax = 1000.0)) //meta ogranicza wartość do ustawiania w edytorze
 	float MaxHealth = 100.0f;
 
 private:

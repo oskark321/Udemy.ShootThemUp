@@ -10,6 +10,8 @@ class UCameraComponent;
 class USpringArmComponent;
 class UInputAction;
 struct FInputActionValue;
+class USTUHealthComponent;
+class UTextRenderComponent;
 
 DECLARE_LOG_CATEGORY_CLASS(LogSTUBaseCharacter, All, All);
 
@@ -94,11 +96,19 @@ public:
 
 private:
 	//S3 L24
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere, Category = "Components")
 	USpringArmComponent* SpringArmComp;
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UCameraComponent* CameraComp;
+
+	//S4 L33
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	USTUHealthComponent* HealthComp;
+
+	UPROPERTY(VisibleAnywhere, Category = "Cmponents")
+	UTextRenderComponent* HealthTextComp;
+	//komponent wyświetlający tekst w świecie gry
 
 	//S3 L29
 	bool WantsToRun = false;

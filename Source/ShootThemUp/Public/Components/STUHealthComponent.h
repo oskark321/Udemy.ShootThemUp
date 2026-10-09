@@ -31,5 +31,10 @@ protected:
 private:
 	//S4 L33
 	float Health = 0.0f;
-		
+
+	//S4 L34
+	UFUNCTION()
+	void OnTakeAnyDamage(AActor* DamagedActor, float Damage, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser);
+	//funkcja wywołana przy zdażeniu obrażeń postaci, czyli gdy postać otrzyma obrażenia wywołana zostanie ta funkcja (wskaźnik do aktora który otrzymał obrażenia, ilość obrażeń,
+	//wskaźnik do typu obrażeń, wskaźnik do kontrolera który zadał obrażenia, wskaźnik do aktora który zadał obrażenia)
 };

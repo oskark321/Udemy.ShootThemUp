@@ -10,6 +10,10 @@
 #include "InputActionValue.h"
 #include "Components/STUHealthComponent.h"
 #include "Components/TextRenderComponent.h"
+#include "Engine/DamageEvents.h"
+
+DEFINE_LOG_CATEGORY_STATIC(STUBaseCharacterLog, All, All);
+//tworzymy własną kategorię logów które używamy zamiast LogTemp
 
 // Sets default values
 ASTUBaseCharacter::ASTUBaseCharacter()
@@ -50,6 +54,7 @@ void ASTUBaseCharacter::BeginPlay()
 	check(HealthComp);
 	check(HealthTextComp);
 	//sprawdzamhy czy komponenty zostału utworzone, jeśli nie to wyświetli błąd w logach w edytorze a na samą zbudowana gre nie ma wpływu
+
 }
 
 // Called every frame
@@ -63,6 +68,10 @@ void ASTUBaseCharacter::Tick(float DeltaTime)
 	HealthTextComp->SetText(FText::FromString(FString::Printf(TEXT("%.0f"), Health)));
 	//ustawiamy tekst w komponencie wyświetlającym tekst na wartość zdrowia postaci po przez funkcje SetText() z komponentu wyświetlającego tekst
 
+	//S4 L34
+	TakeDamage(0.2f, FDamageEvent{}, GetController(), this);
+	//funkcja zadająca obrażenia postaci (ile brażeń mamy zadać, jakiego rodzaju inne obrażenia zostały zadane postaci np wybuch lawa trucizna itp - potrzebna biblioteka,
+	//wskaźnik do kontrolera pionka lub postaci który zadał obrażenia ważne bo np możemy mieć podział na drużyny, wskaźnik do aktora który zadał obrażenia np. pocisk granat nóż itp)
 
 }
 //S3 L25 L26 a raczej z połączeniem z poprzednim kursem

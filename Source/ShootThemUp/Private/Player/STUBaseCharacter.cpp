@@ -22,7 +22,7 @@ ASTUBaseCharacter::ASTUBaseCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 
 	//S3 L24
-	SpringArmComp = CreateDefaultSubobject<USpringArmComponent>("Spring Arm Component");
+	SpringArmComp = CreateDefaultSubobject<USpringArmComponent>("SpringArmComponent");
 	//tworzenie komponentu ramienia sprężynującego
 	SpringArmComp->SetupAttachment(RootComponent);
 	//przypinamy komponent SpringArm do głównego konponentu
@@ -31,18 +31,20 @@ ASTUBaseCharacter::ASTUBaseCharacter()
 	//ustawiamy aby SpringArm używał rotacji kontrolera gracza czyli aby kamera obracała się wraz z graczem czyli w obu osiach. Można to ustawić równiż w BP w edytorze
 
 	//S3 L24
-	CameraComp = CreateDefaultSubobject<UCameraComponent>("Camera Component");
+	CameraComp = CreateDefaultSubobject<UCameraComponent>("CameraComponent");
 	//tworzymy komponent kamery
 	CameraComp->SetupAttachment(SpringArmComp); 
 	//przypinamy komponent kamery do komponentu ramienia sprężystego
 
 	//S4 L33
-	HealthComp = CreateDefaultSubobject<USTUHealthComponent>("Health Component");
-	//tworzymy komponent który odpowiada ze zdrowie postaci, bez SetupAttachment ponieważ komponent nie ma wizualizacji w świecie gry
-	HealthTextComp = CreateDefaultSubobject<UTextRenderComponent>("Health Text Component");
-	//tworzymy komponent który odpowiada za wyświetlanie tekstu w świecie gry
+	HealthComp = CreateDefaultSubobject<USTUHealthComponent>("HealthComponent");
+	//tworzymy komponent zdrwowia, komponent jest czysto logiczny - nie ma sceny ani wizualizacji nie jest widoczny w grze wiec dla tego nie ma potrzeby przypinania go do innego komponentu
+
+	HealthTextComp = CreateDefaultSubobject<UTextRenderComponent>("HealthTextComponent");
+	//tworzymy komponent tekstowy, który będzie wyświetlał wartość zdrowia postaci w grze
 	HealthTextComp->SetupAttachment(RootComponent);
-	//przypinamy komponent wyświetlający tekst do głównego komponentu
+	//przypinamy komponent tekstowy do głównego komponentu postaci
+
 }
 
 // Called when the game starts or when spawned
@@ -53,8 +55,8 @@ void ASTUBaseCharacter::BeginPlay()
 	//S4 L33
 	check(HealthComp);
 	check(HealthTextComp);
-	//sprawdzamhy czy komponenty zostału utworzone, jeśli nie to wyświetli błąd w logach w edytorze a na samą zbudowana gre nie ma wpływu
-
+	//sprawdzamy czy komponenty zdrowia i tekstu zdrowia zostały poprawnie utworzone, jeśli nie to wyświetli błąd w logach i zatrzyma grę
+	//makro działa tylko w środowisku deweloperskim i testowym, w wersji produkcyjnej nie działa
 }
 
 // Called every frame
@@ -64,14 +66,13 @@ void ASTUBaseCharacter::Tick(float DeltaTime)
 
 	//S4 L33
 	const float Health = HealthComp->GetHealth();
-	//pobieramy zdrowie postaci po przez funkcje GetHealth() z komponentu zdrowia
-	HealthTextComp->SetText(FText::FromString(FString::Printf(TEXT("%.0f"), Health)));
-	//ustawiamy tekst w komponencie wyświetlającym tekst na wartość zdrowia postaci po przez funkcje SetText() z komponentu wyświetlającego tekst
+	//pobieramy wartość zdrowia z komponentu zdrowia
+	HealthTextComp->SetText(FText::FromString(FString::Printf(TEXT("Health: %.0f"), Health)));
+	///TextRandomComp ma funkcję SetText aby ustawić tekst(pobiera FText ale ma w sobie funkcję FromString aby przekonwertować na string(FString ma funkcję Printf aby sformatować tekst i wstawić 
+	//wartość zmiennej Health do tekstu a %.0f oznacza że chcemy aby wyświetlić zmienną float jako liczbę całkowitą bez miejsc po przecinku
+	//float konwertujemy na string a następnie na FText aby zadziałała funkcja SetText, która ustawia tekst w grze na ekranie
 
 	//S4 L34
-	TakeDamage(0.2f, FDamageEvent{}, GetController(), this);
-	//funkcja zadająca obrażenia postaci (ile brażeń mamy zadać, jakiego rodzaju inne obrażenia zostały zadane postaci np wybuch lawa trucizna itp - potrzebna biblioteka,
-	//wskaźnik do kontrolera pionka lub postaci który zadał obrażenia ważne bo np możemy mieć podział na drużyny, wskaźnik do aktora który zadał obrażenia np. pocisk granat nóż itp)
 
 }
 //S3 L25 L26 a raczej z połączeniem z poprzednim kursem

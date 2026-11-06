@@ -17,24 +17,20 @@ public:
 	USTUHealthComponent();
 
 	//S4 L33
+	//funkcja wracająca wartość zdrowia. Jest w pliku głównym ponieważ jest jednowierszowa, const ponieważ funkcja niczego nie zmienia w klasie zwraca jedynie wartość
 	float GetHealth() const { return Health; }
-	//funkcja zwracająca aktualne zdrowie postaci, const ponieważ sama nic nie zmienia w klasie
 
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
 	//S4 L33
-	UPROPERTY(EditAnywhere, Category = "Health", meta = (ClampMin = 0.0, ClampMax = 1000.0)) //meta ogranicza wartość do ustawiania w edytorze
+	//meta pozwala na ustawienie wartości w edytorze, tutaj mamy minimalną i maksymalną wartość zdrowia jaką możemy ustawić w edytorze
+	UPROPERTY(EditAnywhere, Category = "Health", meta = (ClampMin = 0.0f, ClampMax = 1000.0f))
 	float MaxHealth = 100.0f;
 
 private:
 	//S4 L33
-	float Health = 0.0f;
+	float Health = 0.0;
 
-	//S4 L34
-	UFUNCTION()
-	void OnTakeAnyDamage(AActor* DamagedActor, float Damage, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser);
-	//funkcja wywołana przy zdażeniu obrażeń postaci, czyli gdy postać otrzyma obrażenia wywołana zostanie ta funkcja (wskaźnik do aktora który otrzymał obrażenia, ilość obrażeń,
-	//wskaźnik do typu obrażeń, wskaźnik do kontrolera który zadał obrażenia, wskaźnik do aktora który zadał obrażenia)
 };

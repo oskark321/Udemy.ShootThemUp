@@ -106,9 +106,8 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	USTUHealthComponent* HealthComp;
 
-	UPROPERTY(VisibleAnywhere, Category = "Cmponents")
+	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UTextRenderComponent* HealthTextComp;
-	//komponent wyświetlający tekst w świecie gry
 
 	//S3 L29
 	bool WantsToRun = false;

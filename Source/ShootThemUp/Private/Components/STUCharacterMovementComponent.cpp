@@ -6,6 +6,7 @@
 
 float USTUCharacterMovementComponent::GetMaxSpeed() const
 {
+	//S3 L29
 	const float MaxSpeed = Super::GetMaxSpeed();
 	//do zmiennej MaxSpeed przypisujemy wartość zwróconą przez funkcję GetMaxSpeed()
 	const ASTUBaseCharacter* Player = Cast<ASTUBaseCharacter>(GetPawnOwner());

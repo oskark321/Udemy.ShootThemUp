@@ -17,7 +17,7 @@ public:
 	USTUHealthComponent();
 
 	//S4 L33
-	//funkcja wracająca wartość zdrowia. Jest w pliku głównym ponieważ jest jednowierszowa, const ponieważ funkcja niczego nie zmienia w klasie zwraca jedynie wartość
+	//funkcja zwracająca wartość zdrowia. Jest w pliku głównym ponieważ jest jednowierszowa więc może tu być, const ponieważ funkcja niczego nie zmienia w klasie zwraca jedynie wartość
 	float GetHealth() const { return Health; }
 
 protected:
@@ -32,5 +32,11 @@ protected:
 private:
 	//S4 L33
 	float Health = 0.0;
+
+	//S4 L34
+	UFUNCTION()
+	void OnTakeAnyDamage(AActor* DamagedActor, float Damage, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser);
+	//funkcja obsługująca EventDamage, która jest wywoływana gdy aktor otrzymuje obrażenia, parametry są narzucone z góry bo to delegad (aktor który został uszkodzony, ilość obrażeń,
+	//typ obrażeń, kontroler który zadał obrażenia, aktor który zadał obrażenia)
 
 };

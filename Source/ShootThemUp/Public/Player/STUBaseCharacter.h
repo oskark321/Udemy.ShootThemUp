@@ -107,9 +107,10 @@ private:
 	USTUHealthComponent* HealthComp;
 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
-	UTextRenderComponent* HealthTextComp;
+	UTextRenderComponent* HealthTextComp; //komponent renderowania tekstu
 
 	//S3 L29
 	bool WantsToRun = false;
 	bool IsMovingForward = false;
+
 };

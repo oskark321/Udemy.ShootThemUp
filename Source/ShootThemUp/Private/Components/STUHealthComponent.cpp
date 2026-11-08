@@ -3,7 +3,7 @@
 
 #include "Components/STUHealthComponent.h"
 
-DEFINE_LOG_CATEGORY_STATIC(HealthComponentLog, All, All);
+DEFINE_LOG_CATEGORY_STATIC(LogHealthComponent, All, All);
 
 // Sets default values for this component's properties
 USTUHealthComponent::USTUHealthComponent()
@@ -26,19 +26,21 @@ void USTUHealthComponent::BeginPlay()
 
 	//S4 L34
 	AActor* ComponentOwner = GetOwner();
-	//każdy komponent ma funkcję GetOwner, który zwraca wskaźnika na aktora do którego jest przypięty
+	//każdy komponent ma funkcję GetOwner, który zwraca wskaźnik na aktora do którego jest przypięty
 	if (ComponentOwner)
 	{
-		ComponentOwner->OnTakeAnyDamage.AddDynamic(this, &USTUHealthComponent::OnTakeAnyDamage);
+		ComponentOwner->OnTakeAnyDamage.AddDynamic(this, &USTUHealthComponent::OnTakeAnyDamageFunction);
+		//po przez wskaźnik do aktora do którego jest przypięty komponent uzyskujemy dostęp do delegata OnTakeAnyDamage i łączymgy go z naszą funkcją(gdy aktor z tym komponentem otrzyma obrażenia,
+		//tutaj funkcja która ma się wywołać przy zdażeniu)
 	}
 }
 
-void USTUHealthComponent::OnTakeAnyDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser)
+void USTUHealthComponent::OnTakeAnyDamageFunction(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser)
 //funkcja obsługująca EventDamage, która jest wywoływana gdy aktor otrzymuje obrażenia, parametry są narzucone z góry bo to delegad (aktor który został uszkodzony, ilość obrażeń,
 //typ obrażeń, kontroler który zadał obrażenia, aktor który zadał obrażenia)
 {
 	//S4 L34
-	//UE_LOG(HealthComponentLog, Warning, TEXT("Damage: %f"), Damage);
+	UE_LOG(LogHealthComponent, Warning, TEXT("Damage: %f"), Damage);
 	Health -= Damage;
 }
 

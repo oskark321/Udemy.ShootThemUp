@@ -35,7 +35,7 @@ private:
 
 	//S4 L34
 	UFUNCTION()
-	void OnTakeAnyDamage(AActor* DamagedActor, float Damage, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser);
+	void OnTakeAnyDamageFunction(AActor* DamagedActor, float Damage, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser);
 	//funkcja obsługująca EventDamage, która jest wywoływana gdy aktor otrzymuje obrażenia, parametry są narzucone z góry bo to delegad (aktor który został uszkodzony, ilość obrażeń,
 	//typ obrażeń, kontroler który zadał obrażenia, aktor który zadał obrażenia)
 

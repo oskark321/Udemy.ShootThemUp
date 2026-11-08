@@ -12,7 +12,7 @@
 #include "Components/TextRenderComponent.h"
 #include "Engine/DamageEvents.h"
 
-DEFINE_LOG_CATEGORY_STATIC(BaseCharacterLog, All, All);
+DEFINE_LOG_CATEGORY_STATIC(LogBaseCharacter, All, All);
 //tworzymy własną kategorię logów które używamy zamiast LogTemp
 
 // Sets default values
@@ -73,10 +73,10 @@ void ASTUBaseCharacter::Tick(float DeltaTime)
 	//float konwertujemy na string a następnie na FText aby zadziałała funkcja SetText, która ustawia tekst w grze na ekranie
 
 	//S4 L34
-	TakeDamage(0.2f, FDamageEvent{}, Controller, this);
-	//zadaj obrażenia (jakie obrażenia zamierzamy zadać, zdażenie powodujące obrażenia każde zdażenie wywołuje odpowiedniego delegata - może być DamageEvent czyli takie ogólne PointDamageEvent
-	//czyli punktowe jak pocisk czy brń tnąca lub RadialDamageEvent czyli obrażenia obszarowe jak granat wybuch itp my mamy po prostu zwykłe DamageEvent czyli nasz delegat to OnTakeAnyDamage,
-	//wskaźnik na kontroler który zadaje obrażenia - tutaj możemy określić czy np kontroler jest w naszej drużyni czy w przeciwnej wskaźnik na aktora który zadaje obrażenia granat kula nóż itp
+	//TakeDamage(0.2f, FDamageEvent{}, Controller, this);
+	//zadaj obrażenia (ilość obrażeń jakie zamieżamy zadać, zdażenie powodujące obrażenia każde zdażenie wywołuje odpowiedniego delegata - może być DamageEvent czyli takie ogólne PointDamageEvent
+	//czyli punktowe jak pocisk czy broń tnąca lub RadialDamageEvent czyli obrażenia obszarowe jak granat wybuch itp my mamy po prostu zwykłe DamageEvent czyli nasz delegat to OnTakeAnyDamage,
+	//wskaźnik na kontroler który zadaje obrażenia - tutaj możemy określić czy np kontroler jest w naszej drużyni czy w przeciwnej, wskaźnik na aktora który zadaje obrażenia granat kula nóż itp
 	//tutaj szkodzimy sobie)
 
 }
@@ -129,14 +129,14 @@ void ASTUBaseCharacter::Look(const FInputActionValue& Value)
 void ASTUBaseCharacter::StartRunning()
 {
 	WantsToRun = true;
-	//UE_LOG(BaseCharacterLog, Warning, TEXT("Running"));
+	//UE_LOG(LogBaseCharacter, Warning, TEXT("Running"));
 }
 //S3 L29 funkcja odpowiedzialna za bieganie postaci
 void ASTUBaseCharacter::StopRunning()
 {
 	
 	WantsToRun = false;
-	//UE_LOG(BaseCharacterLog, Warning, TEXT("Not Running"));
+	//UE_LOG(LogBaseCharacter, Warning, TEXT("Not Running"));
 }
 
 //S3 L25 L26 a raczej z połączeniem z poprzednim kursem
@@ -162,12 +162,12 @@ void ASTUBaseCharacter::DoMove(float Right, float Forward)
 		if (Forward > 0)
 		{
 			IsMovingForward = true;
-			//UE_LOG(BaseCharacterLog, Warning, TEXT("Moving Forward"));
+			//UE_LOG(LogBaseCharacter, Warning, TEXT("Moving Forward"));
 		}
 		else
 		{
 			IsMovingForward = false;
-			//UE_LOG(BaseCharacterLog, Warning, TEXT("Not Moving Forward"));
+			//UE_LOG(LogBaseCharacter, Warning, TEXT("Not Moving Forward"));
 		}
 	}
 }

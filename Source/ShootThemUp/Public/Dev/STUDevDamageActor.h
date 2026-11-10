@@ -40,4 +40,9 @@ private:
 	UPROPERTY(EditAnywhere)
 	bool DoFullDamage = false;
 
+	//S4 L36
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UDamageType> DamageType;
+	//szablon TSubclassOf pomaga aby w edytorze wybrać klasę dziedziczącą po UDamageType, a nie samą klasę UDamageType 
+
 };

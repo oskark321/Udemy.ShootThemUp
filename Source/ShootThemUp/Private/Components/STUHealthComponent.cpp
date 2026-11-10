@@ -2,6 +2,8 @@
 
 
 #include "Components/STUHealthComponent.h"
+#include "Dev/STUFireDamageType.h"
+#include "Dev/STUIceDamageType.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogHealthComponent, All, All);
 
@@ -40,7 +42,21 @@ void USTUHealthComponent::OnTakeAnyDamageFunction(AActor* DamagedActor, float Da
 //typ obrażeń, kontroler który zadał obrażenia, aktor który zadał obrażenia)
 {
 	//S4 L34
-	UE_LOG(LogHealthComponent, Warning, TEXT("Damage: %f"), Damage);
+	//UE_LOG(LogHealthComponent, Warning, TEXT("Damage: %f"), Damage);
 	Health -= Damage;
+
+	if (DamageType) //sprawdzamy czy wskaźnik nie jest pusty, sami ustawialiśmy w S4 L35 DamageType na nullptr
+	{
+		if (DamageType->IsA<USTUFireDamageType>())
+		//funkcja szablonowa IsA sprawdza czy dany wskaźnik jest <jest danego typu> tu sprawdzamy czy wkażnik DamageType jest typu USTUFireDamageType
+		{
+			UE_LOG(LogHealthComponent, Warning, TEXT("Fire Damage Type"));
+		}
+		else if (DamageType->IsA<USTUIceDamageType>())
+		//funkcja szablonowa IsA sprawdza czy dany wskaźnik jest <jest danego typu> tu sprawdzamy czy wkażnik DamageType jest typu USTUIceDamageType
+		{
+			UE_LOG(LogHealthComponent, Warning, TEXT("Ice Damage Type"));
+		}
+	}
 }
 

@@ -57,6 +57,10 @@ void ASTUBaseCharacter::BeginPlay()
 	check(HealthTextComp);
 	//sprawdzamy czy komponenty zdrowia i tekstu zdrowia zostały poprawnie utworzone, jeśli nie to wyświetli błąd w logach i zatrzyma grę
 	//makro działa tylko w środowisku deweloperskim i testowym, w wersji produkcyjnej nie działa
+
+	//S4 L37
+	HealthComp->OnDeathDelegate.AddUObject(this, &ASTUBaseCharacter::OnDeath);
+	//podpinamy funkcję OnDeath do delegata OnDeathDelegate przy użyciu AddUObject ponieważ delegat jest używany tylko w C++
 }
 
 // Called every frame
@@ -213,4 +217,9 @@ float ASTUBaseCharacter::GetMovementDirection() const
 	const float Degrees = FMath::RadiansToDegrees(AngleBetween); //konwertujemy kąt z radianów na stopnie
 	return CrossProduct.IsZero() ? Degrees : Degrees * FMath::Sign(CrossProduct.Z);
 	//sprawdzamy czy iloczyn wektorowy jest zerowy jeśli tak to zwracamy kąt w stopniach jeśli nie to zwracamy kąt w stopniach mnożony przez znak z iloczynu wektorowego z osi Z
+}
+
+void ASTUBaseCharacter::OnDeath()
+{
+	UE_LOG(LogBaseCharacter, Warning, TEXT("Player %s is dead"), *GetName());
 }

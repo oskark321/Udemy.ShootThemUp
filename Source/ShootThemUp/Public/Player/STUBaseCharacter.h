@@ -113,4 +113,7 @@ private:
 	bool WantsToRun = false;
 	bool IsMovingForward = false;
 
+	//S4 L37
+	void OnDeath();
+
 };

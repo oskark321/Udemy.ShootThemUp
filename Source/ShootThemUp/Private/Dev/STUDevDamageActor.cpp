@@ -34,6 +34,7 @@ void ASTUDevDamageActor::Tick(float DeltaTime)
 	//narysuj kulę(wskaźnik do świata gdze ma być rysowana, lokalizacja w świecie - gdzie ustawimy aktora dzięki kompojentowi sceny, promień - wielkość kuli, ilość segmentów - jak bardzo ma
 	//być okrągła, kolor kuli)
 
+	//S4 L35 oraz L36 - DamageType
 	UGameplayStatics::ApplyRadialDamage(GetWorld(), Damage, GetActorLocation(), SphereRadius, DamageType, {}, this, nullptr, DoFullDamage);
 	//zadaj obrażenia obszarowe wszystkim aktorą w strefie - nie musimy określać kto ma otrzymać obrażenia jak w funkcjach ApplyDamage i ApplyRadialDamage(pobieramy wskaźnik świata, ilość obrażeń,
 	//lokalizacja w świecie, promień sfery w której mają być zadane obrażenia, rodzaj obrażeń - nullptr oznacza że nie określamy rodzaju obrażeń i zostanie użyty domyślny, tablica IgnoreActor czyli

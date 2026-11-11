@@ -6,6 +6,10 @@
 #include "Components/ActorComponent.h"
 #include "STUHealthComponent.generated.h"
 
+//S4 L37
+DECLARE_MULTICAST_DELEGATE(FOnDeath);
+//delegat który nie przyjmuje żadnych parametrów i nie zwraca żadnej wartości, będzie wywołany gdy aktor umrze
+//nazwa delegata musi zaczynać się od literki F, delegat będzie dostępny tylko w C++
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class SHOOTTHEMUP_API USTUHealthComponent : public UActorComponent
@@ -19,6 +23,14 @@ public:
 	//S4 L33
 	//funkcja zwracająca wartość zdrowia. Jest w pliku głównym ponieważ jest jednowierszowa więc może tu być, const ponieważ funkcja niczego nie zmienia w klasie zwraca jedynie wartość
 	float GetHealth() const { return Health; }
+
+	//S4 L37
+	UFUNCTION(BlueprintCallable) //dzięki BlueprintCallable możemy wywołać funkcję w BP
+	bool IsDead() const { return Health <= 0.0f; }
+	//funkcja zwracająca prawdę jeśli aktor jest martwy czyli jego zdrowie jest mniejse lub równe 0
+
+	FOnDeath OnDeathDelegate;
+	//tworzenie instancji delegata OnDeathDelegate, który będzie wywołany gdy aktor umrze
 
 protected:
 	// Called when the game starts

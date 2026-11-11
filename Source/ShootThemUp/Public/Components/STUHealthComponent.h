@@ -11,6 +11,9 @@ DECLARE_MULTICAST_DELEGATE(FOnDeath);
 //delegat który nie przyjmuje żadnych parametrów i nie zwraca żadnej wartości, będzie wywołany gdy aktor umrze
 //nazwa delegata musi zaczynać się od literki F, delegat będzie dostępny tylko w C++
 
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnHealthChanged, float);
+//delegad z jednym parametrem wywoływany gdy stan zdrowia się zmieni - robimy pod optymalizacje
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class SHOOTTHEMUP_API USTUHealthComponent : public UActorComponent
 {
@@ -30,7 +33,10 @@ public:
 	//funkcja zwracająca prawdę jeśli aktor jest martwy czyli jego zdrowie jest mniejse lub równe 0
 
 	FOnDeath OnDeathDelegate;
-	//tworzenie instancji delegata OnDeathDelegate, który będzie wywołany gdy aktor umrze
+	//tworzenie instancji delegata OnDeath, który będzie wywołany gdy aktor umrze
+
+	FOnHealthChanged OnHealthChangedDelegate;
+	//tworzenie instancji delegata OnHealthChanged który bedzie informował gdy życie postaci się zmieni
 
 protected:
 	// Called when the game starts

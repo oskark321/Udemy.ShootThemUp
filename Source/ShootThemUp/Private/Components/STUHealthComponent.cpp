@@ -26,6 +26,10 @@ void USTUHealthComponent::BeginPlay()
 	//S4 L33
 	Health = MaxHealth;
 
+	//S4 L37
+	OnHealthChangedDelegate.Broadcast(Health);
+	//wywołujemy delegata OnHealthChangedDelegate, który powiadomi funkcje o zmianie stanu zdorwia
+
 	//S4 L34
 	AActor* ComponentOwner = GetOwner();
 	//każdy komponent ma funkcję GetOwner, który zwraca wskaźnik na aktora do którego jest przypięty
@@ -47,6 +51,9 @@ void USTUHealthComponent::OnTakeAnyDamageFunction(AActor* DamagedActor, float Da
 
 	Health = FMath::Clamp(Health - Damage, 0.0f, MaxHealth);
 	//przypisujemy do zmiennej Health wartość z funkcji Clamp która ogranicza wartość (wartość którą chcemy ograniczyć, minimalna i maksymalna wartość którą może przyjąć zmienna)
+
+	OnHealthChangedDelegate.Broadcast(Health);
+	//wywołujemy delegata OnHealthChangedDelegate, który powiadomi funkcje o zmianie stanu zdorwia
 
 	if (IsDead())
 	{

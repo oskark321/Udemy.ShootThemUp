@@ -11,6 +11,7 @@
 #include "Components/STUHealthComponent.h"
 #include "Components/TextRenderComponent.h"
 #include "Engine/DamageEvents.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogBaseCharacter, All, All);
 //tworzymy własną kategorię logów które używamy zamiast LogTemp
@@ -55,12 +56,18 @@ void ASTUBaseCharacter::BeginPlay()
 	//S4 L33
 	check(HealthComp);
 	check(HealthTextComp);
+	check(GetCharacterMovement());
 	//sprawdzamy czy komponenty zdrowia i tekstu zdrowia zostały poprawnie utworzone, jeśli nie to wyświetli błąd w logach i zatrzyma grę
 	//makro działa tylko w środowisku deweloperskim i testowym, w wersji produkcyjnej nie działa
 
 	//S4 L37
+	OnHealthChanged(HealthComp->GetHealth());
+	//wywołujemy funkcję OnHealthChanged z funkcją która zwraca Health z HealthComponent w BeginPlay aby od samego początku gry ustawić prawidłową ilość życia naszej postaci
 	HealthComp->OnDeathDelegate.AddUObject(this, &ASTUBaseCharacter::OnDeath);
-	//podpinamy funkcję OnDeath do delegata OnDeathDelegate przy użyciu AddUObject ponieważ delegat jest używany tylko w C++
+	//podpinamy funkcję OnDeath do delegata OnDeathDelegate przy użyciu AddUObject - ponieważ delegat jest używany tylko w C++
+
+	HealthComp->OnHealthChangedDelegate.AddUObject(this, &ASTUBaseCharacter::OnHealthChanged);
+	//podpinamy funkcje OnHealthChanged do delegata OnHealthChangedprzy użyciu AddUObject - ponieważ delegad jrst używany tylko w C++
 }
 
 // Called every frame
@@ -69,9 +76,9 @@ void ASTUBaseCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	//S4 L33
-	const float Health = HealthComp->GetHealth();
+	//const float Health = HealthComp->GetHealth();
 	//nowa zmienna pobiera wartość zdrowia z STUHealthComponent za pomocą funkcji GetHealth
-	HealthTextComp->SetText(FText::FromString(FString::Printf(TEXT("Health: %.0f"), Health)));
+	//HealthTextComp->SetText(FText::FromString(FString::Printf(TEXT("Health: %.0f"), Health)));
 	//TextRandomComponent posiada funkcję SetText aby ustawić tekst(pobiera FText ale ma w sobie funkcję FromString aby przekonwertować na string(FString ma funkcję Printf aby sformatować tekst i
 	//wstawić wartość zmiennej Health do tekstu a %.0f oznacza że chcemy aby wyświetlić zmienną float jako liczbę całkowitą bez miejsc po przecinku
 	//float konwertujemy na string a następnie na FText aby zadziałała funkcja SetText, która ustawia tekst w grze na ekranie
@@ -221,5 +228,24 @@ float ASTUBaseCharacter::GetMovementDirection() const
 
 void ASTUBaseCharacter::OnDeath()
 {
+	//S4 L37
 	UE_LOG(LogBaseCharacter, Warning, TEXT("Player %s is dead"), *GetName());
+
+	PlayAnimMontage(DeathAnimMontage);
+	//odtwarzamy animację śmierci (wskażnik do animacji)
+	
+	GetCharacterMovement()->DisableMovement();
+	//wyłączanie ruchu postaci
+
+	SetLifeSpan(5.0f);
+	//ustawiamy czas do zniknięcia ciała postaci na 5s
+}
+
+void ASTUBaseCharacter::OnHealthChanged(float ChangedHealth)
+{
+	//S4 L37
+	HealthTextComp->SetText(FText::FromString(FString::Printf(TEXT("%0.f"), ChangedHealth)));
+	//TextRandomComponent posiada funkcję SetText aby ustawić tekst(pobiera FText ale ma w sobie funkcję FromString aby przekonwertować na string(FString ma funkcję Printf aby sformatować tekst i
+	//wstawić wartość zmiennej ChangedHealth do tekstu a %.0f oznacza że chcemy aby wyświetlić zmienną float jako liczbę całkowitą bez miejsc po przecinku
+	//float konwertujemy na string a następnie na FText aby zadziałała funkcja SetText, która ustawia tekst w grze na ekranie
 }

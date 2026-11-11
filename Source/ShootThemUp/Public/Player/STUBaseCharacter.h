@@ -109,11 +109,17 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UTextRenderComponent* HealthTextComp; //komponent renderowania tekstu
 
+	//S4 L37
+	UPROPERTY(EditDefaultsOnly, Category = "Animation")
+	UAnimMontage* DeathAnimMontage;
+	//zmienna gdzie w edytorze użyjemy pliku AnimMontage z animacją śmierci
+
 	//S3 L29
 	bool WantsToRun = false;
 	bool IsMovingForward = false;
 
 	//S4 L37
 	void OnDeath();
+	void OnHealthChanged(float ChangedHealth); //funkcaj do delegata aby w niej aktualizoawć wyświetlane życie a nie w każdej klatce 
 
 };

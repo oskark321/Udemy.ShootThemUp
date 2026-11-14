@@ -30,13 +30,13 @@ public:
 	//S4 L37
 	UFUNCTION(BlueprintCallable) //dzięki BlueprintCallable możemy wywołać funkcję w BP
 	bool IsDead() const { return Health <= 0.0f; }
-	//funkcja zwracająca prawdę jeśli aktor jest martwy czyli jego zdrowie jest mniejse lub równe 0
+	//funkcja zwracająca prawdę jeśli aktor jest martwy czyli jego zdrowie jest mniejsze lub równe 0
 
 	FOnDeath OnDeathDelegate;
-	//tworzenie instancji delegata OnDeath, który będzie wywołany gdy aktor umrze
+	//tworzenie instancji delegata OnDeathDelegate, który będzie wywołany gdy aktor umrze
 
 	FOnHealthChanged OnHealthChangedDelegate;
-	//tworzenie instancji delegata OnHealthChanged który bedzie informował gdy życie postaci się zmieni
+	//tworzenie instancji delegata OnHealthChangedDelegate, który bedzie informował gdy życie postaci się zmieni
 
 protected:
 	// Called when the game starts

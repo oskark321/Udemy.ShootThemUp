@@ -113,7 +113,7 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Animation")
 	UAnimMontage* DeathAnimMontage;
 	//zmienna gdzie w edytorze użyjemy pliku AnimMontage z animacją śmierci
-
+	
 	//S3 L29
 	bool WantsToRun = false;
 	bool IsMovingForward = false;

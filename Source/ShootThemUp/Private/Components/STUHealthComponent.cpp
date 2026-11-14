@@ -28,7 +28,7 @@ void USTUHealthComponent::BeginPlay()
 
 	//S4 L37
 	OnHealthChangedDelegate.Broadcast(Health);
-	//wywołujemy delegata OnHealthChangedDelegate, który powiadomi funkcje o zmianie stanu zdorwia
+	//wywołujemy delegata OnHealthChangedDelegate, który powiadomi funkcje połączone z delegatem jeśli stan zdrowia się zmieni
 
 	//S4 L34
 	AActor* ComponentOwner = GetOwner();

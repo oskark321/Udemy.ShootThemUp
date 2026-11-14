@@ -10,8 +10,9 @@
 #include "InputActionValue.h"
 #include "Components/STUHealthComponent.h"
 #include "Components/TextRenderComponent.h"
+#include "Components/STUCharacterMovementComponent.h"
 #include "Engine/DamageEvents.h"
-#include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/Controller.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogBaseCharacter, All, All);
 //tworzymy własną kategorię logów które używamy zamiast LogTemp
@@ -62,7 +63,7 @@ void ASTUBaseCharacter::BeginPlay()
 
 	//S4 L37
 	OnHealthChanged(HealthComp->GetHealth());
-	//wywołujemy funkcję OnHealthChanged z funkcją która zwraca Health z HealthComponent w BeginPlay aby od samego początku gry ustawić prawidłową ilość życia naszej postaci
+	//wywołujemy funkcję OnHealthChanged z funkcją która zwraca Health z klasy HealthComponent w BeginPlay aby od samego początku gry ustawić prawidłową ilość życia naszej postaci
 	HealthComp->OnDeathDelegate.AddUObject(this, &ASTUBaseCharacter::OnDeath);
 	//podpinamy funkcję OnDeath do delegata OnDeathDelegate przy użyciu AddUObject - ponieważ delegat jest używany tylko w C++
 
@@ -239,6 +240,13 @@ void ASTUBaseCharacter::OnDeath()
 
 	SetLifeSpan(5.0f);
 	//ustawiamy czas do zniknięcia ciała postaci na 5s
+
+	//S4 L38
+	if (Controller) //sprawdzamy czy postać zawiera wskaźnik do kontrolera
+	{
+		Controller->ChangeState(NAME_Spectating);
+		//z kontrolera wywołujemy funkcję zmiany stanu gdzie możemy zmienić klasę kontrolera (przypisujemy klase kontrolera którą mamy ustawioną w GameMode);
+	}
 }
 
 void ASTUBaseCharacter::OnHealthChanged(float ChangedHealth)

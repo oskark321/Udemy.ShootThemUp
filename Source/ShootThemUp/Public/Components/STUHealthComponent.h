@@ -29,7 +29,7 @@ public:
 
 	//S4 L37
 	UFUNCTION(BlueprintCallable) //dzięki BlueprintCallable możemy wywołać funkcję w BP
-	bool IsDead() const { return Health <= 0.0f; }
+	bool IsDead() const { return FMath::IsNearlyZero(Health); } //to to samo co IsNearlyEqual(Health, 0.0f)
 	//funkcja zwracająca prawdę jeśli aktor jest martwy czyli jego zdrowie jest mniejsze lub równe 0
 
 	FOnDeath OnDeathDelegate;
@@ -47,6 +47,23 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Health", meta = (ClampMin = 0.0f, ClampMax = 1000.0f))
 	float MaxHealth = 100.0f;
 
+	//S4 L39
+	UPROPERTY(EditAnywhere, Category = "Heal")
+	bool AutoHeal = true;
+
+	UPROPERTY(EditAnywhere, Category = "Heal", meta = (EditCondition = "AutoHeal", ClampMin = 0.0f))
+	//EditCondition ogranicza parametr aby był dostępny do edycji jeśli "zmienna jest prawdziwa", ClampMin że nie możemy ustawić mniej niż zero
+	float HealUpdateTime = 0.3f;
+	//częstotliwość jaką życie zostanie dodale co ile w czasies
+	
+	UPROPERTY(EditAnywhere, Category = "Heal", meta = (EditCondition = "AutoHeal", ClampMin = 0.0f))
+	float HealDelay = 3.0f;
+	//czas po jakim bedziemy sie leczyć
+
+	UPROPERTY(EditAnywhere, Category = "Heal", meta = (EditCondition = "AutoHeal", ClampMin = 0.0f))
+	float HealModifer = 1.0f;
+	//wartość ile zostanie dodane życia
+
 private:
 	//S4 L33
 	float Health = 0.0;
@@ -56,5 +73,12 @@ private:
 	void OnTakeAnyDamageFunction(AActor* DamagedActor, float Damage, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser);
 	//funkcja obsługująca EventDamage, która jest wywoływana gdy aktor otrzymuje obrażenia, parametry są narzucone z góry bo to delegad (aktor który został uszkodzony, ilość obrażeń,
 	//typ obrażeń, kontroler który zadał obrażenia, aktor który zadał obrażenia)
+
+	//S4 L39
+	void HealUpdate();
+	void SetHealth(float NewHealth);
+
+	FTimerHandle HealTimerHandle;
+	//zmienna do obsługi Timera
 
 };

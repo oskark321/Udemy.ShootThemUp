@@ -2,6 +2,8 @@
 
 
 #include "Components/STUHealthComponent.h"
+#include "Engine/World.h"
+#include "TimerManager.h"
 //#include "Dev/STUFireDamageType.h"
 //#include "Dev/STUIceDamageType.h"
 
@@ -17,18 +19,20 @@ USTUHealthComponent::USTUHealthComponent()
 
 }
 
-
 // Called when the game starts
 void USTUHealthComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
 	//S4 L33
-	Health = MaxHealth;
+	//Health = MaxHealth;
 
 	//S4 L37
-	OnHealthChangedDelegate.Broadcast(Health);
+	//OnHealthChangedDelegate.Broadcast(Health);
 	//wywołujemy delegata OnHealthChangedDelegate, który powiadomi funkcje połączone z delegatem jeśli stan zdrowia się zmieni
+
+	SetHealth(MaxHealth);//S4 L39
+	//zamiast tych 2 linijem dejemy funkcję SetHealth
 
 	//S4 L34
 	AActor* ComponentOwner = GetOwner();
@@ -41,24 +45,70 @@ void USTUHealthComponent::BeginPlay()
 	}
 }
 
+void USTUHealthComponent::HealUpdate()
+{
+	//S4 L39
+	if (IsDead()) return;
+
+	//Health = FMath::Min(Health + HealModifer, MaxHealth);
+	//funkcja Min ogranicza wartość do jakiej możemy dojść (jaką wartość chcemy ustawić, tutaj maks do jakiej możemy dojść)
+	//OnHealthChangedDelegate.Broadcast(Health);
+	//wywolujemy delegat
+
+	SetHealth(Health + HealModifer);//S4 L39
+	//zamiast tych 2 linijem dejemy funkcję SetHealth
+
+	UE_LOG(LogHealthComponent, Warning, TEXT("Health is: %f"), Health);
+
+	if (FMath::IsNearlyEqual(Health, MaxHealth) && GetWorld())
+		//funkcja IsNearlyEqual sprawdza zy dwie liczby zmiennoprzecinkowe czyli float lub double są niemal równe, bezpieczniejsze niż a == b
+	{
+		GetWorld()->GetTimerManager().ClearTimer(HealTimerHandle);
+		//jeśli wyleczymy się do maksymalnej wartości życia
+		//czyścimy nasz timer, po co się dalej leczyć
+	}
+}
+
+void USTUHealthComponent::SetHealth(float NewHealth)
+{
+	Health = FMath::Clamp(NewHealth, 0.0f, MaxHealth);
+	//przypisujemy do zmiennej Health wartość z funkcji Clamp która ogranicza wartość (wartość którą chcemy ograniczyć, minimalna i maksymalna wartość którą może przyjąć zmienna)
+	OnHealthChangedDelegate.Broadcast(Health);
+	//wywołujemy delegata OnHealthChangedDelegate, który powiadomi funkcje o zmianie stanu zdorwia
+}
+
 void USTUHealthComponent::OnTakeAnyDamageFunction(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser)
 //funkcja obsługująca EventDamage, która jest wywoływana gdy aktor otrzymuje obrażenia, parametry są narzucone z góry bo to delegad (aktor który został uszkodzony, ilość obrażeń,
 //typ obrażeń, kontroler który zadał obrażenia, aktor który zadał obrażenia)
-{
+{	
 	//S4 L37
-	if (Damage <= 0.0f || IsDead()) return;
+	if (Damage <= 0.0f || IsDead() || !GetWorld()) return;
 	//jeśli obrażenia są mniejsze lub równe zero aby nie zwiększać życia aktorowi lub aktor jest martwy to kończymy funkcję
 
-	Health = FMath::Clamp(Health - Damage, 0.0f, MaxHealth);
+	//Health = FMath::Clamp(Health - Damage, 0.0f, MaxHealth);
 	//przypisujemy do zmiennej Health wartość z funkcji Clamp która ogranicza wartość (wartość którą chcemy ograniczyć, minimalna i maksymalna wartość którą może przyjąć zmienna)
 
-	OnHealthChangedDelegate.Broadcast(Health);
+	//OnHealthChangedDelegate.Broadcast(Health);
 	//wywołujemy delegata OnHealthChangedDelegate, który powiadomi funkcje o zmianie stanu zdorwia
+	
+	SetHealth(Health - Damage);//S4 L39
+	//zamiast tych 2 linijem dejemy funkcję SetHealth
+
+	GetWorld()->GetTimerManager().ClearTimer(HealTimerHandle); //S4 L39
+	//jeśli wyleczymy się do maksymalnej wartości życia
+	//czyścimy nasz timer, po co się dalej leczyć
 
 	if (IsDead())
 	{
 		OnDeathDelegate.Broadcast();
 		//wywołujemy delegata OnDeathDelegate, który powiadomi wszystkie funkcje które się do niego podpięły że aktor z tym komponentem umarł
+	}
+	//S4 L39
+	else if (AutoHeal)
+	{
+		GetWorld()->GetTimerManager().SetTimer(HealTimerHandle, this, &USTUHealthComponent::HealUpdate, HealUpdateTime, true, HealDelay);
+		//ustawiamy timer za pomocą Timer Manager (nasza zmienna timer handle, klasa na której zostanie wywołana funkcja, adres do funkcji która ma dziaąłć z timerem, zmienna wskazująca jak często
+		//ma załączać się timer, czy chcemy aby działao w pętli wywoływało się w pętli, po jakim czasie ma odpalić się nasz timer
 	}
 
 	//S4 L34
